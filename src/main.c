@@ -1,13 +1,37 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-void iniciar_jogo() {
-    printf("\n\njogo iniciado!\n");
-};
-
-void desenha_menu() {
+void desenha_logo() {
     printf("\n\n================================\n");
     printf("\tEfeito Borboleta\n");
     printf("================================\n");
+
+}
+
+void iniciar_jogo(char* jogador) {
+    desenha_logo();
+    printf("\nVocê está diante de uma porta.\n");
+
+    printf("\n1 - Abrir a porta\n");
+    printf("2 - Ir embora\n");
+    int escolha = 0;
+    scanf("%d", &escolha);
+    if(escolha == 1) printf("\nVocê entrou na sala\n");
+    if(escolha == 2) printf("\nVocê foi embora\n");
+}
+
+void configurar_jogo() {
+    system("clear");
+    desenha_logo();
+    char nome_jogador[100];
+    printf("\nDigite seu Nickname:\n");
+    scanf("%s", nome_jogador);
+    system("clear");
+    iniciar_jogo(nome_jogador);
+};
+
+void desenha_menu() {
+    desenha_logo();
 
     printf("\n\nBem Vindo ao Jogo!\n");
 
@@ -17,7 +41,7 @@ void desenha_menu() {
     scanf("%d", &escolha);
     if(escolha == 0) return;
     if(escolha == 1) {
-        iniciar_jogo();
+        configurar_jogo();
         return;
     }
 };
