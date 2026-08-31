@@ -33,6 +33,22 @@ NoDecisao *buscar_decisao(NoDecisao *inicio, int id) {
     return NULL;
 }
 
+NoDecisao *buscar_decisao_instrumentada(NoDecisao *inicio, int id, int *comparacoes) {
+    NoDecisao *atual = inicio;
+
+    if (comparacoes != NULL) *comparacoes = 0;
+
+    while (atual != NULL) {
+        if (comparacoes != NULL) (*comparacoes)++;
+
+        if (atual->decisao.id == id) return atual;
+
+        atual = atual->proximo;
+    }
+
+    return NULL;
+}
+
 void liberar_decisoes(NoDecisao *inicio) {
     NoDecisao *atual = inicio;
 

@@ -66,13 +66,19 @@ void iniciar_jogo(char *nome) {
 
     int escolha = ler_inteiro("\n\n> ");
 
-    NoDecisao *decisao = buscar_decisao(jogo.evento_atual->decisoes, escolha);
+    int comparacoes = 0;
+    NoDecisao *decisao = buscar_decisao_instrumentada(jogo.evento_atual->decisoes, escolha, &comparacoes);
 
     while (decisao == NULL) {
         printf("\nOpcao invalida. Digite novamente.\n");
         escolha = ler_inteiro("> ");
-        decisao = buscar_decisao(jogo.evento_atual->decisoes, escolha);
+        decisao = buscar_decisao_instrumentada(jogo.evento_atual->decisoes, escolha, &comparacoes);
     }
+
+    printf("\n[BUSCA SEQUENCIAL]\n");
+    printf("Procurando decisao de ID %d...\n", escolha);
+    printf("Comparacoes realizadas: %d\n", comparacoes);
+    printf("Decisao encontrada.\n");
 
     jogo.jogador.score += decisao->decisao.impacto;
 

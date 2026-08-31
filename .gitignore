@@ -1,1 +1,6 @@
 main
+*.o
+efeito_borboleta
+efeito_borboleta.exe
+tests/test_search
+tests/test_search.exe
