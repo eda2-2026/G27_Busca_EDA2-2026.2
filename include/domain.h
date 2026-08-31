@@ -10,17 +10,23 @@ typedef struct Jogador {
 typedef struct Decisao {
     int id;
     char descricao[255];
-    char impacto[255];
+    int impacto;
 } Decisao;
+
+typedef struct NoDecisao {
+    Decisao decisao;
+    struct NoDecisao *proximo;
+} NoDecisao;
 
 typedef struct Evento {
     int id;
-    Decisao decisoes;
+    char lore[500];
+    NoDecisao *decisoes;
 } Evento;
 
 typedef struct Jogo {
     Jogador jogador;
-    Evento evento_atual;
+    Evento *evento_atual;
 } Jogo;
 
 #endif

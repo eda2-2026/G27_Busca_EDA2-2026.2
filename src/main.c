@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "domain.h"
-#include "player.c"
+#include "player.h"
+#include "decision.h"
+#include "story.h"
 
 void desenha_logo() {
     printf("\n\n================================\n");
@@ -9,17 +11,57 @@ void desenha_logo() {
     printf("================================\n");
 }
 
-void iniciar_jogo(char* jogador) {
+void iniciar_jogo(char *nome) {
+
+    Evento eventos[1] = {0};
+
+    inicializar_historia(eventos);
+
+    Jogo jogo;
+
+    jogo.jogador.id = 1;
+    jogo.jogador.score = 0;
+
+    snprintf(jogo.jogador.nome, sizeof(jogo.jogador.nome), "%s", nome);
+
+    jogo.evento_atual = &eventos[0];
+
     desenha_logo();
+
+    printf("\n%s\n", jogo.evento_atual->lore);
     printf("\nVocê está diante de uma porta.\n");
 
-    printf("\n1 - Abrir a porta\n");
-    printf("2 - Ir embora\n");
-    int escolha = 0;
-    printf("\n> ");
+    NoDecisao *atual = jogo.evento_atual->decisoes;
+
+    while (atual != NULL) {
+        printf("\n%d - %s", atual->decisao.id, atual->decisao.descricao);
+
+        atual = atual->proximo;
+    }
+
+    int escolha;
+
+    printf("\n\n> ");
     scanf("%d", &escolha);
-    if (escolha == 1) printf("\nVocê entrou na sala\n");
-    if (escolha == 2) printf("\nVocê foi embora\n");
+
+    NoDecisao *decisao = buscar_decisao(jogo.evento_atual->decisoes, escolha);
+
+    if (decisao == NULL) {
+        printf("\nDecisao invalida.\n");
+        return;
+    }
+
+    jogo.jogador.score += decisao->decisao.impacto;
+
+    printf("\nVoce escolheu: %s\n", decisao->decisao.descricao);
+
+    printf("Score atual: %d\n",jogo.jogador.score);
+
+    while (atual != NULL) {
+        NoDecisao *proximo = atual->proximo;
+        free(atual);
+        atual = proximo;
+    }
 }
 
 void configurar_jogo() {
@@ -34,20 +76,16 @@ void desenha_menu() {
 
     printf("\n\nBem Vindo ao Jogo!\n");
 
-    printf("1 - Iniciar\n");
+    printf("\n1 - Iniciar\n");
     printf("0 - Sair\n");
     int escolha = 0;
     printf("\n> ");
     scanf("%d", &escolha);
-    if (escolha == 0) return;
-    if (escolha == 1) {
-        configurar_jogo();
-        return;
-    }
+
+    if (escolha == 1) configurar_jogo();
 }
 
 int main() {
-    Decisao decisao;
     desenha_menu();
     return 0;
 }

@@ -1,11 +1,10 @@
-#include <stdio.h>
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "domain.h"
 
-void atualiza_score(Jogador jogador) {
-    jogador.score += 1;
-    return;
-}
+Jogador cadastrar_jogador(void);
+void atualiza_score(Jogador jogador);
+int consultar_score(Jogador jogador);
 
-int consultar_score(Jogador jogador) {
-    return jogador.score;
-}
+#endif
