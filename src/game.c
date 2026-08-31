@@ -134,6 +134,50 @@ static void executar_partida(bool modo_debug) {
     ler_inteiro("Digite 1 e pressione ENTER para voltar ao menu > ");
 }
 
+static void demonstracao_buscas(void) {
+    limpar_tela();
+    desenha_logo();
+
+    Evento eventos[TOTAL_EVENTOS];
+    inicializar_historia(eventos);
+
+    int ids[TOTAL_EVENTOS];
+    for (int i = 0; i < TOTAL_EVENTOS; i++) ids[i] = eventos[i].id;
+
+    printf("\n====================================\n");
+    printf("       DEMONSTRACAO DE BUSCAS\n");
+    printf("====================================\n");
+    printf("\nEventos disponiveis (ordenados por ID): ");
+    for (int i = 0; i < TOTAL_EVENTOS; i++) printf("%d ", ids[i]);
+    printf("\n");
+
+    int alvo = ler_inteiro("\nDigite o ID do evento a procurar > ");
+
+    printf("\n[BUSCA SEQUENCIAL]\n");
+    int comparacoes_seq = 0;
+    int indice_seq = busca_sequencial_vetor_verbosa(ids, TOTAL_EVENTOS, alvo, &comparacoes_seq);
+    printf("Comparacoes realizadas: %d\n", comparacoes_seq);
+    printf("Complexidade: O(n)\n");
+
+    printf("\n[BUSCA BINARIA]\n");
+    int comparacoes_bin = 0;
+    int indice_bin = busca_binaria_vetor_verbosa(ids, TOTAL_EVENTOS, alvo, &comparacoes_bin);
+    printf("Comparacoes realizadas: %d\n", comparacoes_bin);
+    printf("Complexidade: O(log n)\n");
+
+    printf("\n------------------------------------\n");
+    printf("Elemento procurado: %d\n", alvo);
+    printf("Busca Sequencial -> comparacoes: %d | %s\n", comparacoes_seq,
+        indice_seq >= 0 ? "encontrado" : "nao encontrado");
+    printf("Busca Binaria    -> comparacoes: %d | %s\n", comparacoes_bin,
+        indice_bin >= 0 ? "encontrado" : "nao encontrado");
+    printf("------------------------------------\n");
+
+    for (int i = 0; i < TOTAL_EVENTOS; i++) liberar_decisoes(eventos[i].decisoes);
+
+    ler_inteiro("\nDigite 1 e pressione ENTER para voltar ao menu > ");
+}
+
 void menu_principal(void) {
     int opcao;
 
@@ -144,6 +188,7 @@ void menu_principal(void) {
         printf("\nBem-vindo ao Efeito Borboleta!\n\n");
         printf("[1] Iniciar jogo\n");
         printf("[2] Iniciar jogo (modo debug - mostra as buscas)\n");
+        printf("[3] Demonstracao de algoritmos de busca\n");
         printf("[0] Sair\n");
 
         opcao = ler_inteiro("\nEscolha > ");
@@ -151,6 +196,7 @@ void menu_principal(void) {
         switch (opcao) {
             case 1: executar_partida(false); break;
             case 2: executar_partida(true); break;
+            case 3: demonstracao_buscas(); break;
             case 0: printf("\nAte a proxima!\n\n"); break;
             default: printf("\nOpcao invalida.\n"); break;
         }
