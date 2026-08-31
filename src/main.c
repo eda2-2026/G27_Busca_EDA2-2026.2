@@ -57,11 +57,7 @@ void iniciar_jogo(char *nome) {
 
     printf("Score atual: %d\n",jogo.jogador.score);
 
-    while (atual != NULL) {
-        NoDecisao *proximo = atual->proximo;
-        free(atual);
-        atual = proximo;
-    }
+    liberar_decisoes(jogo.evento_atual->decisoes);
 }
 
 void configurar_jogo() {

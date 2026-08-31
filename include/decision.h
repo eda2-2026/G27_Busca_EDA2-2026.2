@@ -7,4 +7,6 @@ NoDecisao *buscar_decisao(NoDecisao *inicio, int id);
 
 void adicionar_decisao(NoDecisao **inicio, Decisao decisao);
 
+void liberar_decisoes(NoDecisao *inicio);
+
 #endif

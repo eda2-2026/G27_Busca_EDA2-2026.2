@@ -32,3 +32,13 @@ NoDecisao *buscar_decisao(NoDecisao *inicio, int id) {
 
     return NULL;
 }
+
+void liberar_decisoes(NoDecisao *inicio) {
+    NoDecisao *atual = inicio;
+
+    while (atual != NULL) {
+        NoDecisao *proximo = atual->proximo;
+        free(atual);
+        atual = proximo;
+    }
+}
