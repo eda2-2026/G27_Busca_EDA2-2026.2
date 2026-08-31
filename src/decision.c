@@ -1,0 +1,1 @@
+char decisoes[2][50] = {"Abrir a porta", "Ir embora"};
