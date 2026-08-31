@@ -11,6 +11,7 @@ typedef struct Decisao {
     int id;
     char descricao[255];
     int impacto;
+    int proximo_evento;
 } Decisao;
 
 typedef struct NoDecisao {
