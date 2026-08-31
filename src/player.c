@@ -1,25 +1,29 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "player.h"
 
-Jogador cadastrar_jogador() {
-    printf("\nDigite seu Nickname:\n");
-    printf("\n> ");
+Jogador cadastrar_jogador(void) {
     Jogador jogador = {0};
+
+    jogador.id = 1;
+    jogador.score = 0;
+
+    printf("Digite seu nickname: ");
     scanf("%49s", jogador.nome);
-    system("clear");
+
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+
     return jogador;
 }
 
-void atualiza_score(Jogador jogador) {
-    jogador.score += 1;
+void atualiza_score(Jogador *jogador, int pontos) {
+    if (jogador == NULL) return;
+
+    jogador->score += pontos;
 }
 
-int consultar_score(Jogador jogador) {
-    return jogador.score;
-}
+int consultar_score(const Jogador *jogador) {
+    if (jogador == NULL) return 0;
 
-int player() {
-
-    return 0;
+    return jogador->score;
 }
