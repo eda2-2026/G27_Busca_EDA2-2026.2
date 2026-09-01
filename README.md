@@ -5,6 +5,12 @@ pequena história de 6 eventos e, a cada evento, escolhe entre ~3 alternativas
 que alteram seu score. O score acumulado ao final define um entre três finais
 possíveis.
 
+## Vídeo de apresentação
+
+[![Algoritmos de Busca - Efeito Borboleta](docs/thumbnail-apresentacao.png)](https://youtu.be/1tVAzx8xpkc)
+
+Clique na imagem acima para assistir à apresentação do projeto no YouTube.
+
 ## Objetivo
 
 Este projeto existe para explorar, na prática, estruturas de dados e
