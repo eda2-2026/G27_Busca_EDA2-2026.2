@@ -55,23 +55,22 @@ void inicializar_historia(Evento eventos[TOTAL_EVENTOS]) {
     adicionar_decisao(&eventos[5].decisoes, (Decisao){3, "Refletir sobre a jornada e planejar o futuro", 1, EVENTO_FIM});
 }
 
-const char *obter_final(int score) {
-    if (score >= 8) {
-        return
-            "FINAL POSITIVO\n"
-            "Suas escolhas construiram uma reputacao admirada. Cada pequena\n"
-            "atitude gerou um grande efeito borboleta ao seu redor.";
+const char *obter_final(int categoria) {
+    switch (categoria) {
+        case 0:
+            return
+                "FINAL POSITIVO\n"
+                "Suas escolhas generosas construiram uma reputacao admirada.\n"
+                "Cada pequena atitude gerou um grande efeito borboleta ao seu redor.";
+        case 2:
+            return
+                "FINAL NEGATIVO\n"
+                "As escolhas dificeis cobraram seu preco. O efeito borboleta\n"
+                "das suas atitudes trouxe consequencias duras.";
+        default:
+            return
+                "FINAL NEUTRO\n"
+                "Sua jornada teve acertos e erros equilibrados. O efeito das\n"
+                "suas escolhas ainda esta em aberto.";
     }
-
-    if (score >= 2) {
-        return
-            "FINAL NEUTRO\n"
-            "Sua jornada teve acertos e erros equilibrados. O efeito das\n"
-            "suas escolhas ainda esta em aberto.";
-    }
-
-    return
-        "FINAL NEGATIVO\n"
-        "As escolhas dificeis cobraram seu preco. O efeito borboleta das\n"
-        "suas atitudes trouxe consequencias duras.";
 }

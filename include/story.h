@@ -9,6 +9,6 @@
 
 void inicializar_historia(Evento eventos[TOTAL_EVENTOS]);
 
-const char *obter_final(int score);
+const char *obter_final(int categoria);
 
 #endif

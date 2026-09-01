@@ -4,7 +4,6 @@
 typedef struct Jogador {
     int id;
     char nome[50];
-    int score;
 } Jogador;
 
 typedef struct Decisao {

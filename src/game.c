@@ -7,6 +7,7 @@
 #include "decision.h"
 #include "story.h"
 #include "search.h"
+#include "category.h"
 
 void limpar_tela(void) {
 #ifdef _WIN32
@@ -47,8 +48,15 @@ void desenha_logo(void) {
 static void desenha_cabecalho_evento(const Jogo *jogo) {
     desenha_logo();
     printf("\nJogador: %s\n", jogo->jogador.nome);
-    printf("Score: %d\n", consultar_score(&jogo->jogador));
     printf("----------------------------------------\n");
+}
+
+static const char *nome_categoria(int idx) {
+    switch (idx) {
+        case 0: return "Altruista";
+        case 2: return "Egoista";
+        default: return "Neutro";
+    }
 }
 
 static void executar_partida(bool modo_debug) {
@@ -60,6 +68,9 @@ static void executar_partida(bool modo_debug) {
 
     Evento eventos[TOTAL_EVENTOS];
     inicializar_historia(eventos);
+
+    HistoricoEscolhas historico;
+    inicializar_historico(&historico);
 
     int id_evento_atual = EVENTO_INICIAL;
 
@@ -107,10 +118,11 @@ static void executar_partida(bool modo_debug) {
             printf("Decisao encontrada.\n");
         }
 
-        atualiza_score(&jogo.jogador, decisao->decisao.impacto);
+        registrar_escolha(&historico, decisao->decisao, id_evento_atual);
 
+        int cat = categorizar(decisao->decisao.impacto);
         printf("\nVoce escolheu: %s\n", decisao->decisao.descricao);
-        printf("Score atual: %d\n", consultar_score(&jogo.jogador));
+        printf("Categoria: %s\n", nome_categoria(cat));
 
         id_evento_atual = decisao->decisao.proximo_evento;
 
@@ -119,13 +131,28 @@ static void executar_partida(bool modo_debug) {
         }
     }
 
+    int dominante = obter_categoria_dominante(&historico);
+
     limpar_tela();
     desenha_logo();
 
     printf("\n================ FIM DE JOGO ================\n");
     printf("\nJogador: %s\n", jogo.jogador.nome);
-    printf("Score final: %d\n\n", consultar_score(&jogo.jogador));
-    printf("%s\n\n", obter_final(consultar_score(&jogo.jogador)));
+    printf("Categoria dominante: %s (%d de 6 escolhas)\n\n",
+        nome_categoria(dominante), historico.contagem[dominante]);
+
+    printf("%s\n\n", obter_final(dominante));
+
+    printf("Suas escolhas que definiram este final:\n\n");
+    NoEscolha *atual = historico.buckets[dominante];
+    while (atual != NULL) {
+        printf("  - \"%s\" (evento %d, impacto %+d)\n",
+            atual->decisao.descricao, atual->evento_id, atual->decisao.impacto);
+        atual = atual->proximo;
+    }
+    printf("\n");
+
+    liberar_historico(&historico);
 
     for (int i = 0; i < TOTAL_EVENTOS; i++) {
         liberar_decisoes(eventos[i].decisoes);
