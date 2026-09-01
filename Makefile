@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -Iinclude
 
-SRC = src/main.c src/player.c src/decision.c src/story.c src/search.c src/game.c
+SRC = src/main.c src/player.c src/decision.c src/story.c src/search.c src/category.c src/game.c
 OBJ = $(SRC:.c=.o)
 TARGET = efeito_borboleta
 
